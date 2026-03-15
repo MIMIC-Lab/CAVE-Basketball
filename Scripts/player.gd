@@ -15,7 +15,7 @@ extends CharacterBody3D
 
 @export_group("References")
 @export var _ballScene: PackedScene
-@export var _line3D: SimpleLine3D
+@export var _line3D: LinePath3D
 @export var _ballVisual: MeshInstance3D
 
 var _ballCurrentlyHeld: bool = false
@@ -31,6 +31,7 @@ func _process(_delta: float) -> void:
     
     if Input.is_action_pressed("Shoot") and _ballCurrentlyHeld:
         _isShooting = true
+        _line3D.visible = true
         ProcessShot()
     if Input.is_action_just_released("Shoot") and _ballCurrentlyHeld:
         _isShooting = false
@@ -68,13 +69,16 @@ func ProcessShot() -> void:
     _throw_dir = forward_dir.rotated(rotation_axis, angle_rad).normalized()
 
     var path = predict_ball_path(_ballVisual.global_position, _throw_dir*_defaultShotForce)
-    _line3D.draw_trajectory(path)
+    _line3D.curve.clear_points()
+    for p in path:
+        _line3D.curve.add_point(to_local(p))
 
 func DoShot() -> void:
     SpawnBall()
     _currentBall.apply_central_impulse(_throw_dir * _defaultShotForce)
     _ballVisual.visible = false
     _ballCurrentlyHeld = false
+    _line3D.visible = false
 
 func predict_ball_path(start_position: Vector3, initial_velocity: Vector3, steps: int = 50, delta_t: float = 0.02) -> PackedVector3Array:
     var GRAVITY: Vector3 = Vector3.DOWN * -get_gravity()
