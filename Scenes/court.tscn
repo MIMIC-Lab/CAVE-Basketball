@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://c62wc0rmyefhc" path="res://Scenes/ball.tscn" id="3_xarxi"]
 [ext_resource type="PackedScene" uid="uid://2iyp731jsbcr" path="res://Scenes/wall_piece.tscn" id="4_kcrj0"]
 [ext_resource type="Script" uid="uid://c3egy6ijdh8um" path="res://Scripts/player.gd" id="5_piyvx"]
+[ext_resource type="Script" uid="uid://cx4amwfjqakui" path="res://Scripts/SimpleLine3D.gd" id="6_15idh"]
+[ext_resource type="Texture2D" uid="uid://bss4umkbq1aq1" path="res://Art/Licensed/balldimpled.png" id="7_phudg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xarxi"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -39,6 +41,13 @@ bounce = 0.8
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kcrj0"]
 height = 1.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_yyh2q"]
+radius = 0.119
+height = 0.239
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kcrj0"]
+albedo_texture = ExtResource("7_phudg")
 
 [node name="Court" type="Node3D" unique_id=1645849445]
 
@@ -107,8 +116,12 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 10.3
 [node name="Wall Piece6" parent="Walls" unique_id=177738326 instance=ExtResource("4_kcrj0")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -10.363, 0, 8.839)
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=11062230]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=11062230 node_paths=PackedStringArray("_line3D", "_ballVisual")]
 script = ExtResource("5_piyvx")
+_defaultShotForce = 8.0
+_ballScene = ExtResource("3_xarxi")
+_line3D = NodePath("Line3D")
+_ballVisual = NodePath("BallVisual")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=2028017124]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
@@ -117,3 +130,13 @@ shape = SubResource("CapsuleShape3D_kcrj0")
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=650983584]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 current = true
+
+[node name="Line3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=132644058]
+top_level = true
+script = ExtResource("6_15idh")
+
+[node name="BallVisual" type="MeshInstance3D" parent="CharacterBody3D" unique_id=2048999846]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -0.75)
+visible = false
+mesh = SubResource("SphereMesh_yyh2q")
+surface_material_override/0 = SubResource("StandardMaterial3D_kcrj0")
