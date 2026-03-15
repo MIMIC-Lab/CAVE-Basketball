@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://2iyp731jsbcr"]
+
+[ext_resource type="Texture2D" uid="uid://x8d412o8wp5l" path="res://Art/Licensed/WallTile/WallTileDiffuse.png" id="1_05bqn"]
+[ext_resource type="Texture2D" uid="uid://2titjvo6tchr" path="res://Art/Licensed/WallTile/WallTileAmbientOcclusion .png" id="2_m6hwg"]
+[ext_resource type="Texture2D" uid="uid://dj3keb0nenqcf" path="res://Art/Licensed/WallTile/WallTileNormal.png" id="3_t5ecv"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ofil0"]
+size = Vector2(10.363, 10.363)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ypv05"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = ExtResource("1_05bqn")
+normal_enabled = true
+normal_texture = ExtResource("3_t5ecv")
+ao_enabled = true
+ao_texture = ExtResource("2_m6hwg")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nlk2x"]
+size = Vector3(10.363, 10.363, 1)
+
+[node name="Wall Piece" type="StaticBody3D" unique_id=1296970694]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1952352351]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 2.08, 0)
+mesh = SubResource("PlaneMesh_ofil0")
+surface_material_override/0 = SubResource("StandardMaterial3D_ypv05")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=116897888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.08, -0.5)
+shape = SubResource("BoxShape3D_nlk2x")

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c62wc0rmyefhc"]
+
+[ext_resource type="Texture2D" uid="uid://bss4umkbq1aq1" path="res://Art/Licensed/balldimpled.png" id="1_d60mj"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_yyh2q"]
+radius = 0.119
+height = 0.239
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kcrj0"]
+albedo_texture = ExtResource("1_d60mj")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yyh2q"]
+radius = 0.119
+
+[node name="Ball" type="RigidBody3D" unique_id=1304941758]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2048999846]
+mesh = SubResource("SphereMesh_yyh2q")
+surface_material_override/0 = SubResource("StandardMaterial3D_kcrj0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=173376607]
+shape = SubResource("SphereShape3D_yyh2q")
