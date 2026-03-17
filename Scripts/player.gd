@@ -7,10 +7,10 @@ extends CharacterBody3D
 @export var LOOK_SPEED = 0.03
 
 @export_group("Shot Settings")
-@export var _ballSpawnPos := Vector3(0, 0.8, -0.75)
 @export var _defaultShotAngle := 45.0
 @export var _shotAngleMin := -45.0
 @export var _shotAngleMax := 90
+@export var _shotAngleAccel := 1
 @export var _defaultShotForce := 10.0
 
 @export_group("References")
@@ -46,11 +46,11 @@ func _physics_process(delta: float) -> void:
         var direction := transform.basis * Vector3(input_dir.x, 0, input_dir.y)
         velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCELERATION)
         velocity.z = move_toward(velocity.z, direction.z * SPEED, ACCELERATION)
-        var look_inp := Input.get_axis("LookRight", "LookLeft")
-        rotate_y(look_inp * LOOK_SPEED)
     else:
         velocity.x = 0
         velocity.z = 0
+    var look_inp := Input.get_axis("LookRight", "LookLeft")
+    rotate_y(look_inp * LOOK_SPEED)
 
     move_and_slide()
 
@@ -61,13 +61,20 @@ func SpawnBall() -> void:
     _currentBall = ball
 
 func ProcessShot() -> void:
+    # Adjust angle and power based on input
+    if Input.is_action_pressed("LookDown"):
+        _throwAngle = move_toward(_throwAngle, _shotAngleMin, _shotAngleAccel)
+    if Input.is_action_pressed("LookUp"):
+        _throwAngle = move_toward(_throwAngle, _shotAngleMax, _shotAngleAccel)
+
     # Calculate throw direction
     # Character forward (basis -z) rotated up or down (basis x)
     var forward_dir = -transform.basis.z
-    var angle_rad = deg_to_rad(_defaultShotAngle)
+    var angle_rad = deg_to_rad(_throwAngle)
     var rotation_axis = transform.basis.x
     _throw_dir = forward_dir.rotated(rotation_axis, angle_rad).normalized()
 
+    # Predict throw path based on direction and draw it
     var path = predict_ball_path(_ballVisual.global_position, _throw_dir*_defaultShotForce)
     _line3D.curve.clear_points()
     for p in path:
@@ -79,6 +86,7 @@ func DoShot() -> void:
     _ballVisual.visible = false
     _ballCurrentlyHeld = false
     _line3D.visible = false
+    _throwAngle = _defaultShotAngle
 
 func predict_ball_path(start_position: Vector3, initial_velocity: Vector3, steps: int = 50, delta_t: float = 0.02) -> PackedVector3Array:
     var GRAVITY: Vector3 = Vector3.DOWN * -get_gravity()
