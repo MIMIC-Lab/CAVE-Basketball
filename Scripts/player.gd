@@ -12,6 +12,9 @@ extends CharacterBody3D
 @export var _shotAngleMax := 90
 @export var _shotAngleAccel := 1
 @export var _defaultShotForce := 10.0
+@export var _shotForceMin := 8.0
+@export var _shotForceMax := 12.0
+@export var _shotForceAccel := 0.25
 
 @export_group("References")
 @export var _ballScene: PackedScene
@@ -21,7 +24,8 @@ extends CharacterBody3D
 var _ballCurrentlyHeld: bool = false
 var _isShooting: bool = false
 var _currentBall: RigidBody3D
-var _throwAngle: float
+@onready var _throwAngle: float = _defaultShotAngle
+@onready var _throwForce: float = _defaultShotForce
 var _throw_dir : Vector3
 
 func _process(_delta: float) -> void:
@@ -66,6 +70,10 @@ func ProcessShot() -> void:
         _throwAngle = move_toward(_throwAngle, _shotAngleMin, _shotAngleAccel)
     if Input.is_action_pressed("LookUp"):
         _throwAngle = move_toward(_throwAngle, _shotAngleMax, _shotAngleAccel)
+    if Input.is_action_pressed("ShotPowerDown"):
+        _throwForce = move_toward(_throwForce, _shotForceMin, _shotForceAccel)
+    if Input.is_action_pressed("ShotPowerUp"):
+        _throwForce = move_toward(_throwForce, _shotForceMax, _shotForceAccel)
 
     # Calculate throw direction
     # Character forward (basis -z) rotated up or down (basis x)
@@ -75,20 +83,21 @@ func ProcessShot() -> void:
     _throw_dir = forward_dir.rotated(rotation_axis, angle_rad).normalized()
 
     # Predict throw path based on direction and draw it
-    var path = predict_ball_path(_ballVisual.global_position, _throw_dir*_defaultShotForce)
+    var path = predict_ball_path(_ballVisual.global_position, _throw_dir*_throwForce)
     _line3D.curve.clear_points()
     for p in path:
         _line3D.curve.add_point(to_local(p))
 
 func DoShot() -> void:
     SpawnBall()
-    _currentBall.apply_central_impulse(_throw_dir * _defaultShotForce)
+    _currentBall.apply_central_impulse(_throw_dir * _throwForce)
     _ballVisual.visible = false
     _ballCurrentlyHeld = false
     _line3D.visible = false
     _throwAngle = _defaultShotAngle
+    _throwForce = _defaultShotForce
 
-func predict_ball_path(start_position: Vector3, initial_velocity: Vector3, steps: int = 50, delta_t: float = 0.02) -> PackedVector3Array:
+func predict_ball_path(start_position: Vector3, initial_velocity: Vector3, steps: int = 25, delta_t: float = 0.02) -> PackedVector3Array:
     var GRAVITY: Vector3 = Vector3.DOWN * -get_gravity()
     var path := PackedVector3Array()
     var current_position := start_position
