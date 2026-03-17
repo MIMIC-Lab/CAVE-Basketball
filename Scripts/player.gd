@@ -10,34 +10,30 @@ extends CharacterBody3D
 @export var _defaultShotAngle := 45.0
 @export var _shotAngleMin := -45.0
 @export var _shotAngleMax := 90
-@export var _shotAngleAccel := 1
+@export var _shotAngleAccel := 0.75
 @export var _defaultShotForce := 10.0
 @export var _shotForceMin := 8.0
 @export var _shotForceMax := 12.0
-@export var _shotForceAccel := 0.25
+@export var _shotForceAccel := 0.1
 
 @export_group("References")
 @export var _ballScene: PackedScene
 @export var _line3D: LinePath3D
 @export var _ballVisual: MeshInstance3D
 
-var _ballCurrentlyHeld: bool = false
 var _isShooting: bool = false
 var _currentBall: RigidBody3D
 @onready var _throwAngle: float = _defaultShotAngle
 @onready var _throwForce: float = _defaultShotForce
 var _throw_dir : Vector3
 
-func _process(_delta: float) -> void:
-    if Input.is_action_just_pressed("SpawnBall") and not _ballCurrentlyHeld:
+func _process(_delta: float) -> void:    
+    if Input.is_action_pressed("Shoot"):
         _ballVisual.visible = true
-        _ballCurrentlyHeld = true
-    
-    if Input.is_action_pressed("Shoot") and _ballCurrentlyHeld:
         _isShooting = true
         _line3D.visible = true
         ProcessShot()
-    if Input.is_action_just_released("Shoot") and _ballCurrentlyHeld:
+    if Input.is_action_just_released("Shoot"):
         _isShooting = false
         DoShot()
 
@@ -92,7 +88,6 @@ func DoShot() -> void:
     SpawnBall()
     _currentBall.apply_central_impulse(_throw_dir * _throwForce)
     _ballVisual.visible = false
-    _ballCurrentlyHeld = false
     _line3D.visible = false
     _throwAngle = _defaultShotAngle
     _throwForce = _defaultShotForce

@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://ty6r00w7qn54"]
+
+[ext_resource type="Script" uid="uid://c3egy6ijdh8um" path="res://Scripts/player.gd" id="1_fkybt"]
+[ext_resource type="PackedScene" uid="uid://c62wc0rmyefhc" path="res://Scenes/ball.tscn" id="2_x3wgy"]
+[ext_resource type="Script" uid="uid://cqofojx0y3icj" path="res://addons/godot-polyliner/Line3D/LinePath3D.gd" id="3_3smsa"]
+[ext_resource type="Shader" uid="uid://durlvj8162pxu" path="res://addons/godot-polyliner/shaders/line_dashed.tres" id="4_8erm5"]
+[ext_resource type="Texture2D" uid="uid://bss4umkbq1aq1" path="res://Art/Licensed/balldimpled.png" id="5_f1ek2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kcrj0"]
+height = 1.6
+
+[sub_resource type="Curve3D" id="Curve3D_1wyqj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ypv05"]
+render_priority = 0
+shader = ExtResource("4_8erm5")
+shader_parameter/line_width = 0.05
+shader_parameter/rounded = false
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/antline_percent = 0.499999988824
+shader_parameter/antline_scroll = 0.999999977648
+shader_parameter/antline_scale = 0.75
+
+[sub_resource type="SphereMesh" id="SphereMesh_yyh2q"]
+radius = 0.119
+height = 0.239
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kcrj0"]
+albedo_texture = ExtResource("5_f1ek2")
+
+[node name="Player" type="CharacterBody3D" unique_id=1159727561 node_paths=PackedStringArray("_line3D", "_ballVisual")]
+script = ExtResource("1_fkybt")
+_defaultShotForce = 8.0
+_ballScene = ExtResource("2_x3wgy")
+_line3D = NodePath("LinePath3D")
+_ballVisual = NodePath("BallVisual")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=183532683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_kcrj0")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=739668914]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+current = true
+
+[node name="LinePath3D" type="Path3D" parent="." unique_id=438759793]
+curve = SubResource("Curve3D_1wyqj")
+script = ExtResource("3_3smsa")
+material = SubResource("ShaderMaterial_ypv05")
+metadata/_custom_type_script = "uid://cqofojx0y3icj"
+
+[node name="BallVisual" type="MeshInstance3D" parent="." unique_id=1734331492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -0.75)
+visible = false
+mesh = SubResource("SphereMesh_yyh2q")
+surface_material_override/0 = SubResource("StandardMaterial3D_kcrj0")
