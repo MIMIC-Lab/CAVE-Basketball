@@ -40,8 +40,11 @@ bounce = 0.8
 
 [node name="Main" type="Node3D" unique_id=1645849445]
 
-[node name="Level Manager" type="Node" parent="." unique_id=552724275]
+[node name="Level Manager" type="Node" parent="." unique_id=552724275 node_paths=PackedStringArray("_lowerBoundaryMark", "_upperBoundaryMark")]
 script = ExtResource("1_21xkr")
+_controllerPlayer = ExtResource("5_kry3j")
+_lowerBoundaryMark = NodePath("../SpawnBoundaries/Lower Boundary")
+_upperBoundaryMark = NodePath("../SpawnBoundaries/Upper Boundary")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1402939876]
 environment = SubResource("Environment_piyvx")
@@ -71,10 +74,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.944496, 3.3548858, 0)
 mass = 0.62
 physics_material_override = SubResource("PhysicsMaterial_xarxi")
 linear_velocity = Vector3(-3, 0, 0)
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1381240727]
-transform = Transform3D(0.9372956, -0.18831523, 0.29328197, 0, 0.84146965, 0.5403044, -0.34853542, -0.50642496, 0.7887058, -11.471584, 4.0148525, 2.345719)
-visible = false
 
 [node name="Walls" type="Node3D" parent="." unique_id=159789172]
 
@@ -107,8 +106,6 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 10.3
 
 [node name="Wall Piece6" parent="Walls" unique_id=177738326 instance=ExtResource("4_d1ilt")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -10.363, 0, 8.839)
-
-[node name="Player" parent="." unique_id=1159727561 instance=ExtResource("5_kry3j")]
 
 [node name="SpawnBoundaries" type="Node3D" parent="." unique_id=248477217]
 
