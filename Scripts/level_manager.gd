@@ -7,7 +7,8 @@ enum PlayerType {
 
 @export_group("Game Settings")
 @export var _shotsPerPosition: int = 3
-@export var _numPositions: int = 4
+@export var _shotPositions: Array[Marker3D]
+@export var _hoop: Marker3D
 
 @export_group("Animation")
 @export var _letterboxAnim: AnimationPlayer
@@ -17,21 +18,11 @@ enum PlayerType {
 @export var _activePlayerType: PlayerType
 @export var _controllerPlayer: PackedScene
 
-@export_group("RNG Settings")
-@export var _seed: int = 42
-@export var _lowerBoundaryMark: Marker3D
-@export var _upperBoundaryMark: Marker3D
-@export var _hoop: Marker3D
-
-var _rng: RandomNumberGenerator
 var _currentPlayer: Player
 var _completedShots: int = 0
 var _completedPositions: int = 0
 
 func _ready() -> void:
-    _rng = RandomNumberGenerator.new()
-    _rng.seed = _seed
-    _rng.state = 0
     _instantiatePlayer.call_deferred()
     _placePlayer.call_deferred()
 
@@ -42,13 +33,11 @@ func _instantiatePlayer() -> void:
     _currentPlayer.BallShot.connect(OnPlayerShotBall)
 
 func _placePlayer() -> void:
-    _currentPlayer.global_position = GenerateShotPosition()
+    _currentPlayer.global_position = NextShotPosition()
     _currentPlayer.look_at(_hoop.global_position)
 
-func GenerateShotPosition() -> Vector3:
-    var x = _rng.randf_range(_lowerBoundaryMark.global_position.x, _upperBoundaryMark.global_position.x)
-    var z = _rng.randf_range(_lowerBoundaryMark.global_position.z, _upperBoundaryMark.global_position.z)
-    return Vector3(x, 0, z)
+func NextShotPosition() -> Vector3:
+    return _shotPositions[_completedPositions].global_position
 
 func OnPlayerShotBall(ball: Ball) -> void:
     _completedShots += 1
@@ -67,9 +56,10 @@ func OnBallDestroy() -> void:
         _currentPlayer._controlEnabled = true
 
 func OnFadeToBlackComplete() -> void:
-    _placePlayer()
-    var tween = create_tween().tween_property(_fadeRect, "modulate", Color(0,0,0,0), 1)
-    tween.finished.connect(OnFadeFromBlackComplete)
+    if _completedPositions < _shotPositions.size():
+        _placePlayer()
+        var tween = create_tween().tween_property(_fadeRect, "modulate", Color(0,0,0,0), 1)
+        tween.finished.connect(OnFadeFromBlackComplete)
 
 func OnFadeFromBlackComplete() -> void:
     _letterboxAnim.play("LetterboxOff")
