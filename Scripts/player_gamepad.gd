@@ -27,24 +27,25 @@ var _currentBall: RigidBody3D
 var _throw_dir : Vector3
 var _moveEnabled: bool = false
 
-func _process(_delta: float) -> void:    
-	if Input.is_action_pressed("Shoot"):
-		_ballVisual.visible = true
-		_isShooting = true
-		_line3D.visible = true
-		ProcessShot()
-	if Input.is_action_just_released("Shoot"):
-		_isShooting = false
-		DoShot()
-	
-	if Input.is_action_just_pressed("EnableMovement"):
-		_moveEnabled = !_moveEnabled
+func _process(_delta: float) -> void:   
+	if _controlEnabled: 
+		if Input.is_action_pressed("Shoot"):
+			_ballVisual.visible = true
+			_isShooting = true
+			_line3D.visible = true
+			ProcessShot()
+		if Input.is_action_just_released("Shoot"):
+			_isShooting = false
+			DoShot()
+		
+		if Input.is_action_just_pressed("EnableMovement"):
+			_moveEnabled = !_moveEnabled
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	if _moveEnabled and not _isShooting:
+	if _controlEnabled and _moveEnabled and not _isShooting:
 		var input_dir := Input.get_vector("MoveLeft", "MoveRight", "MoveUp", "MoveDown")
 		var direction := transform.basis * Vector3(input_dir.x, 0, input_dir.y)
 		velocity.x = move_toward(velocity.x, direction.x * SPEED, ACCELERATION)
@@ -52,8 +53,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = 0
 		velocity.z = 0
-	var look_inp := Input.get_axis("LookRight", "LookLeft")
-	rotate_y(look_inp * LOOK_SPEED)
+	
+	if _controlEnabled:
+		var look_inp := Input.get_axis("LookRight", "LookLeft")
+		rotate_y(look_inp * LOOK_SPEED)
 
 	move_and_slide()
 

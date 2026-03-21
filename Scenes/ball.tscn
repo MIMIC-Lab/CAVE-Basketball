@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://25macm4dxlp8" path="res://Scripts/ball.gd" id="1_ij5cq"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d60mj"]
-bounce = 0.8
+bounce = 0.6
 
 [sub_resource type="SphereMesh" id="SphereMesh_yyh2q"]
 radius = 0.119
@@ -31,6 +31,7 @@ shape = SubResource("SphereShape3D_yyh2q")
 
 [node name="DestroyTimer" type="Timer" parent="." unique_id=2096499377]
 unique_name_in_owner = true
+wait_time = 2.0
 one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -52,6 +52,7 @@ func GenerateShotPosition() -> Vector3:
 
 func OnPlayerShotBall(ball: Ball) -> void:
     _completedShots += 1
+    _currentPlayer._controlEnabled = false
     _letterboxAnim.play("LetterboxOn")
     ball.BallDestroyed.connect(OnBallDestroy)
 
@@ -63,6 +64,7 @@ func OnBallDestroy() -> void:
         _completedShots = 0
     else:
         _letterboxAnim.play("LetterboxOff")
+        _currentPlayer._controlEnabled = true
 
 func OnFadeToBlackComplete() -> void:
     _placePlayer()
@@ -71,3 +73,4 @@ func OnFadeToBlackComplete() -> void:
 
 func OnFadeFromBlackComplete() -> void:
     _letterboxAnim.play("LetterboxOff")
+    _currentPlayer._controlEnabled = true
