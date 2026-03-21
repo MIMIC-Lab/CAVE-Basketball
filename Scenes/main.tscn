@@ -3,9 +3,66 @@
 [ext_resource type="Script" uid="uid://bq0axi52yksbe" path="res://Scripts/level_manager.gd" id="1_21xkr"]
 [ext_resource type="PackedScene" uid="uid://bxxepac4ffl8v" path="res://Scenes/hoop.tscn" id="1_344ge"]
 [ext_resource type="Texture2D" uid="uid://d02i0tms3owrx" path="res://Art/Custom/BBallCourt.png" id="2_ynf5e"]
-[ext_resource type="PackedScene" uid="uid://c62wc0rmyefhc" path="res://Scenes/ball.tscn" id="3_hptm8"]
 [ext_resource type="PackedScene" uid="uid://2iyp731jsbcr" path="res://Scenes/wall_piece.tscn" id="4_d1ilt"]
 [ext_resource type="PackedScene" uid="uid://ty6r00w7qn54" path="res://Scenes/player.tscn" id="5_kry3j"]
+[ext_resource type="Shader" uid="uid://pqrk428ol2bx" path="res://Art/Shaders/letterbox.gdshader" id="7_6bp64"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
+shader = ExtResource("7_6bp64")
+shader_parameter/squishedness = 0.0
+
+[sub_resource type="Animation" id="Animation_ynf5e"]
+resource_name = "LetterboxOff"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Letterbox:material:shader_parameter/squishedness")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.2, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_6bp64"]
+resource_name = "LetterboxOn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Letterbox:material:shader_parameter/squishedness")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.2]
+}
+
+[sub_resource type="Animation" id="Animation_344ge"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Letterbox:material:shader_parameter/squishedness")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_344ge"]
+_data = {
+&"LetterboxOff": SubResource("Animation_ynf5e"),
+&"LetterboxOn": SubResource("Animation_6bp64"),
+&"RESET": SubResource("Animation_344ge")
+}
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xarxi"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -35,17 +92,39 @@ albedo_texture = ExtResource("2_ynf5e")
 [sub_resource type="BoxShape3D" id="BoxShape3D_xarxi"]
 size = Vector3(32, 1, 18)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_xarxi"]
-bounce = 0.8
-
 [node name="Main" type="Node3D" unique_id=1645849445]
 
-[node name="Level Manager" type="Node" parent="." unique_id=552724275 node_paths=PackedStringArray("_lowerBoundaryMark", "_upperBoundaryMark", "_hoop")]
+[node name="Level Manager" type="Node" parent="." unique_id=552724275 node_paths=PackedStringArray("_letterboxAnim", "_fadeRect", "_lowerBoundaryMark", "_upperBoundaryMark", "_hoop")]
 script = ExtResource("1_21xkr")
+_letterboxAnim = NodePath("CanvasLayer/AnimationPlayer")
+_fadeRect = NodePath("CanvasLayer/FadeToBlack")
 _controllerPlayer = ExtResource("5_kry3j")
 _lowerBoundaryMark = NodePath("../SpawnBoundaries/Lower Boundary")
 _upperBoundaryMark = NodePath("../SpawnBoundaries/Upper Boundary")
 _hoop = NodePath("../SpawnBoundaries/Hoop Position")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Level Manager" unique_id=930411717]
+
+[node name="Letterbox" type="ColorRect" parent="Level Manager/CanvasLayer" unique_id=2102481842]
+material = SubResource("ShaderMaterial_344ge")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Level Manager/CanvasLayer" unique_id=2031828869]
+libraries/ = SubResource("AnimationLibrary_344ge")
+
+[node name="FadeToBlack" type="ColorRect" parent="Level Manager/CanvasLayer" unique_id=545701652]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1402939876]
 environment = SubResource("Environment_piyvx")
@@ -60,7 +139,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.326, 0, 0)
 [node name="Hoop2" parent="." unique_id=1913215908 instance=ExtResource("1_344ge")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 14.326, 0, 0)
 
-[node name="Court" type="StaticBody3D" parent="." unique_id=275063770]
+[node name="Court" type="StaticBody3D" parent="." unique_id=275063770 groups=["Floor"]]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Court" unique_id=124163355]
 mesh = SubResource("PlaneMesh_yyh2q")
@@ -69,12 +148,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_xarxi")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Court" unique_id=1786012011]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_xarxi")
-
-[node name="Ball" parent="." unique_id=1304941758 instance=ExtResource("3_hptm8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.944496, 3.3548858, 0)
-mass = 0.62
-physics_material_override = SubResource("PhysicsMaterial_xarxi")
-linear_velocity = Vector3(-3, 0, 0)
 
 [node name="Walls" type="Node3D" parent="." unique_id=159789172]
 
