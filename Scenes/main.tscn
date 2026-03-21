@@ -40,11 +40,12 @@ bounce = 0.8
 
 [node name="Main" type="Node3D" unique_id=1645849445]
 
-[node name="Level Manager" type="Node" parent="." unique_id=552724275 node_paths=PackedStringArray("_lowerBoundaryMark", "_upperBoundaryMark")]
+[node name="Level Manager" type="Node" parent="." unique_id=552724275 node_paths=PackedStringArray("_lowerBoundaryMark", "_upperBoundaryMark", "_hoop")]
 script = ExtResource("1_21xkr")
 _controllerPlayer = ExtResource("5_kry3j")
 _lowerBoundaryMark = NodePath("../SpawnBoundaries/Lower Boundary")
 _upperBoundaryMark = NodePath("../SpawnBoundaries/Upper Boundary")
+_hoop = NodePath("../SpawnBoundaries/Hoop Position")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1402939876]
 environment = SubResource("Environment_piyvx")
@@ -116,3 +117,6 @@ gizmo_extents = 0.5
 [node name="Lower Boundary" type="Marker3D" parent="SpawnBoundaries" unique_id=457719211]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.925, 0, -4.572)
 gizmo_extents = 0.5
+
+[node name="Hoop Position" type="Marker3D" parent="SpawnBoundaries" unique_id=1166491059]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.802, 0, 0)

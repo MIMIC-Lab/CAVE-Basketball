@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ty6r00w7qn54"]
 
-[ext_resource type="Script" uid="uid://c3egy6ijdh8um" path="res://Scripts/player.gd" id="1_fkybt"]
+[ext_resource type="Script" uid="uid://c3egy6ijdh8um" path="res://Scripts/player_gamepad.gd" id="1_fkybt"]
 [ext_resource type="PackedScene" uid="uid://c62wc0rmyefhc" path="res://Scenes/ball.tscn" id="2_x3wgy"]
 [ext_resource type="Script" uid="uid://cqofojx0y3icj" path="res://addons/godot-polyliner/Line3D/LinePath3D.gd" id="3_3smsa"]
 [ext_resource type="Shader" uid="uid://durlvj8162pxu" path="res://addons/godot-polyliner/shaders/line_dashed.tres" id="4_8erm5"]
