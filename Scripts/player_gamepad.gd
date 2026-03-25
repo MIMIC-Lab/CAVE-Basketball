@@ -29,13 +29,16 @@ var _moveEnabled: bool = false
 
 func _process(_delta: float) -> void:   
 	if _controlEnabled: 
-		if Input.is_action_pressed("Shoot"):
+		if Input.is_action_just_pressed("Shoot"):
 			_ballVisual.visible = true
 			_isShooting = true
 			_line3D.visible = true
+			_throwPressedTimestamp = Time.get_unix_time_from_system()
+		if Input.is_action_pressed("Shoot") and _isShooting:
 			ProcessShot()
-		if Input.is_action_just_released("Shoot"):
+		if Input.is_action_just_released("Shoot") and _isShooting:
 			_isShooting = false
+			_throwReleasedTimestamp = Time.get_unix_time_from_system()
 			DoShot()
 		
 		if Input.is_action_just_pressed("EnableMovement"):
@@ -93,11 +96,11 @@ func ProcessShot() -> void:
 func DoShot() -> void:
 	SpawnBall()
 	_currentBall.apply_central_impulse(_throw_dir * _throwForce)
+	BallShot.emit(_currentBall, _currentBall.global_position, _throw_dir, _currentBall.linear_velocity, _spawnedTimestamp, _throwPressedTimestamp, _throwReleasedTimestamp)
 	_ballVisual.visible = false
 	_line3D.visible = false
 	_throwAngle = _defaultShotAngle
 	_throwForce = _defaultShotForce
-	BallShot.emit(_currentBall)
 
 func predict_ball_path(start_position: Vector3, initial_velocity: Vector3, steps: int = 50, delta_t: float = 0.02) -> PackedVector3Array:
 	var GRAVITY: Vector3 = Vector3.DOWN * -get_gravity()
