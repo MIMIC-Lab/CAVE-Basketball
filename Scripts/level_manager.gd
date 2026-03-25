@@ -2,7 +2,7 @@ class_name LevelManager
 extends Node
 
 enum PlayerType {
-    Controller, Wand, Gesture
+    Controller, VR, Gesture
 }
 
 @export_group("Game Settings")
@@ -18,6 +18,7 @@ enum PlayerType {
 @export_group("Player Types")
 @export var _activePlayerType: PlayerType
 @export var _controllerPlayer: PackedScene
+@export var _vrPlayer: PackedScene
 
 var _currentPlayer: Player
 var _currentBall: Ball
@@ -33,6 +34,9 @@ func _ready() -> void:
 func _instantiatePlayer() -> void:
     if _activePlayerType == PlayerType.Controller:
         _currentPlayer = _controllerPlayer.instantiate() as Player
+    if _activePlayerType == PlayerType.VR:
+        _currentPlayer = _vrPlayer.instantiate() as Player
+
     get_parent().add_child(_currentPlayer)
     _currentPlayer.BallShot.connect(OnPlayerShotBall)
 
