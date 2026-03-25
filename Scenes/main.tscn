@@ -108,7 +108,6 @@ _hoop = NodePath("../SpawnPositions/Hoop Position")
 _dataLogger = NodePath("../Data Logger")
 _letterboxAnim = NodePath("CanvasLayer/AnimationPlayer")
 _fadeRect = NodePath("CanvasLayer/FadeToBlack")
-_activePlayerType = 1
 _controllerPlayer = ExtResource("5_kry3j")
 _vrPlayer = ExtResource("3_ynf5e")
 
