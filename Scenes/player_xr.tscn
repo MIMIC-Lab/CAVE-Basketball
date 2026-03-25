@@ -19,7 +19,7 @@ current = true
 [node name="Right Hand" type="XRController3D" parent="XROrigin3D" unique_id=375321684]
 tracker = &"right_hand"
 script = ExtResource("2_v2ih2")
-impulse_factor = 5.0
+impulse_factor = 2.0
 _ballScene = ExtResource("3_tal3k")
 
 [node name="RightHand" parent="XROrigin3D/Right Hand" unique_id=1155425392 instance=ExtResource("2_qlxyt")]

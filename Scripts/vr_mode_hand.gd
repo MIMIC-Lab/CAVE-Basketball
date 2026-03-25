@@ -43,6 +43,7 @@ func ReleaseBall() -> void:
 		parent.get_parent().add_child(_ballInstance)
 		_ballInstance.global_position = global_position
 		_ballInstance.rotation = rotation
+		print(_velocity_averager.linear_velocity())
 		_ballInstance.linear_velocity = _velocity_averager.linear_velocity() * impulse_factor
 		_ballInstance.angular_velocity = _velocity_averager.angular_velocity() * impulse_factor
 		parent.BallShot.emit(_ballInstance, _ballInstance.global_position, _ballInstance.global_rotation, _ballInstance.linear_velocity, parent._spawnedTimestamp, parent._throwPressedTimestamp, parent._throwReleasedTimestamp)

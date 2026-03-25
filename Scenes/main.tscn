@@ -46,7 +46,7 @@ size = Vector3(32, 1, 18)
 
 [node name="Level Manager" type="Node" parent="." unique_id=552724275 node_paths=PackedStringArray("_shotPositions", "_hoop", "_dataLogger", "_fadeRect", "_waitIcon")]
 script = ExtResource("1_21xkr")
-_shotPositions = [NodePath("../SpawnPositions/Pos 1"), NodePath("../SpawnPositions/Pos 2"), NodePath("../SpawnPositions/Pos 3"), NodePath("../SpawnPositions/Pos 4")]
+_shotPositions = [NodePath("../SpawnPositions/Pos 1"), NodePath("../SpawnPositions/Pos 2"), NodePath("../SpawnPositions/Pos 3"), NodePath("../SpawnPositions/Pos 4"), NodePath("../SpawnPositions/Pos 5")]
 _hoop = NodePath("../SpawnPositions/Hoop Position")
 _dataLogger = NodePath("../Data Logger")
 _fadeRect = NodePath("CanvasLayer/FadeToBlack")
@@ -153,19 +153,23 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -10.
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.573, 0, 0)
 
 [node name="Pos 1" type="Marker3D" parent="SpawnPositions" unique_id=806920465]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.4129286, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4296784, 0, 0)
 gizmo_extents = 0.5
 
 [node name="Pos 2" type="Marker3D" parent="SpawnPositions" unique_id=246341725]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.211121, 0, -3.3721488)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9198227, 0, -4.420988)
 gizmo_extents = 0.5
 
 [node name="Pos 3" type="Marker3D" parent="SpawnPositions" unique_id=322908606]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.722091, 0, 2.586507)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.443436, 0, -6.826041)
 gizmo_extents = 0.5
 
 [node name="Pos 4" type="Marker3D" parent="SpawnPositions" unique_id=1396061750]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.84062, 0, -1.1842432)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.981889, 0, 4.7988925)
+gizmo_extents = 0.5
+
+[node name="Pos 5" type="Marker3D" parent="SpawnPositions" unique_id=2145601978]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.856677, 0, 6.9808292)
 gizmo_extents = 0.5
 
 [connection signal="body_entered" from="Hoop2/Upper Area" to="Level Manager" method="_OnHoopUpperAreaBodyEntered"]
