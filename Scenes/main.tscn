@@ -81,6 +81,10 @@ ambient_light_energy = 0.75
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6bp64"]
+height = 0.15
+radius = 0.15
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_yyh2q"]
 size = Vector2(31.09, 17.678)
 
@@ -144,6 +148,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.326, 0, 0)
 [node name="Hoop2" parent="." unique_id=1913215908 instance=ExtResource("1_344ge")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 14.326, 0, 0)
 
+[node name="Upper Area" type="Area3D" parent="Hoop2" unique_id=298944267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.753, 3.198, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hoop2/Upper Area" unique_id=1569355794]
+shape = SubResource("CylinderShape3D_6bp64")
+
+[node name="Lower Area" type="Area3D" parent="Hoop2" unique_id=297693727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.753, 2.898, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hoop2/Lower Area" unique_id=652088859]
+shape = SubResource("CylinderShape3D_6bp64")
+
 [node name="Court" type="StaticBody3D" parent="." unique_id=275063770 groups=["Floor"]]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Court" unique_id=124163355]
@@ -206,3 +222,6 @@ gizmo_extents = 0.5
 [node name="Pos 4" type="Marker3D" parent="SpawnPositions" unique_id=1396061750]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.84062, 0, -1.1842432)
 gizmo_extents = 0.5
+
+[connection signal="body_entered" from="Hoop2/Upper Area" to="Level Manager" method="_OnHoopUpperAreaBodyEntered"]
+[connection signal="body_entered" from="Hoop2/Lower Area" to="Level Manager" method="_OnHoopLowerAreaBodyEntered"]
