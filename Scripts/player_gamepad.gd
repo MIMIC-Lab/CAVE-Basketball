@@ -96,7 +96,7 @@ func ProcessShot() -> void:
 func DoShot() -> void:
 	SpawnBall()
 	_currentBall.apply_central_impulse(_throw_dir * _throwForce)
-	BallShot.emit(_currentBall, _currentBall.global_position, _throw_dir, _currentBall.linear_velocity, _spawnedTimestamp, _throwPressedTimestamp, _throwReleasedTimestamp)
+	BallShot.emit(_currentBall, _currentBall.global_position, _currentBall.global_rotation, _throw_dir, _spawnedTimestamp, _throwPressedTimestamp, _throwReleasedTimestamp)
 	_ballVisual.visible = false
 	_line3D.visible = false
 	_throwAngle = _defaultShotAngle
