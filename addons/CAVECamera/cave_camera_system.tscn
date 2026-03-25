@@ -4,9 +4,19 @@
 
 [node name="CaveCameraSystem" type="Node3D" unique_id=1798725572]
 script = ExtResource("1_vamsn")
+view_height = null
 metadata/_custom_type_script = "uid://de7py4ciswka1"
 
-[node name="FrontCam" type="Camera3D" parent="." unique_id=1371461957]
+[node name="FrontWindow" type="Window" parent="." unique_id=1882283424]
+unique_name_in_owner = true
+oversampling_override = 1.0
+mode = 4
+initial_position = 1
+size = Vector2i(1920, 1080)
+
+[node name="FrontCamParent" type="Node3D" parent="FrontWindow" unique_id=756352024]
+
+[node name="FrontCam" type="Camera3D" parent="FrontWindow/FrontCamParent" unique_id=1371461957]
 unique_name_in_owner = true
 projection = 2
 size = 1.143
@@ -57,3 +67,6 @@ remote_path = NodePath("../LeftWindow/LeftCamParent")
 
 [node name="RightRemote" type="RemoteTransform3D" parent="." unique_id=1904245196]
 remote_path = NodePath("../RightWindow/RightCamParent")
+
+[node name="FrontRemote" type="RemoteTransform3D" parent="." unique_id=640934707]
+remote_path = NodePath("../FrontWindow/FrontCamParent")

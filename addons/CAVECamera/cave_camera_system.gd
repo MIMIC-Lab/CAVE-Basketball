@@ -9,6 +9,7 @@ extends Node3D
 @export var view_height: float = 1.65
 @export var far_plane = 50
 
+var front_window: Window
 var left_window : Window
 var right_window : Window
 var frontCam : Camera3D
@@ -19,6 +20,7 @@ var viewport_size: Vector2i
 var eye_position: Vector3
 
 func _ready() -> void:
+	front_window = $FrontWindow
 	left_window = %LeftWindow
 	right_window = %RightWindow
 	frontCam = %FrontCam
