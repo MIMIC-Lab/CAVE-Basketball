@@ -54,4 +54,4 @@ surface_material_override/0 = SubResource("StandardMaterial3D_kcrj0")
 
 [node name="CaveCameraSystem" parent="." unique_id=411705399 instance=ExtResource("6_x3wgy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
-view_depth = 2.032
+view_height = 1.65

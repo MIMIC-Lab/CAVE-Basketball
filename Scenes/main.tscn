@@ -51,6 +51,7 @@ _hoop = NodePath("../SpawnPositions/Hoop Position")
 _dataLogger = NodePath("../Data Logger")
 _fadeRect = NodePath("CanvasLayer/FadeToBlack")
 _waitIcon = NodePath("CanvasLayer/WaitIcon")
+_activePlayerType = 1
 _controllerPlayer = ExtResource("5_kry3j")
 _vrPlayer = ExtResource("3_ynf5e")
 

@@ -5,7 +5,7 @@ extends Node3D
 # Origin of coordinates is at center of front screen
 @export var screen_width: float = 4.064
 @export var screen_height: float = 2.286
-@export var view_depth: float = 3.658
+@export var view_depth: float = 2.032
 @export var view_height: float = 1.65
 @export var far_plane = 50
 
