@@ -7,65 +7,8 @@
 [ext_resource type="Script" uid="uid://1fborb3xyfyp" path="res://Scripts/data_logger.gd" id="4_6bp64"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="4_344ge"]
 [ext_resource type="PackedScene" uid="uid://2iyp731jsbcr" path="res://Scenes/wall_piece.tscn" id="4_d1ilt"]
+[ext_resource type="Texture2D" uid="uid://b3xemnpbh8fn5" path="res://Art/Kenney/hourglass.png" id="5_hptm8"]
 [ext_resource type="PackedScene" uid="uid://ty6r00w7qn54" path="res://Scenes/player.tscn" id="5_kry3j"]
-[ext_resource type="Shader" uid="uid://pqrk428ol2bx" path="res://Art/Shaders/letterbox.gdshader" id="7_6bp64"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
-shader = ExtResource("7_6bp64")
-shader_parameter/squishedness = 0.0
-
-[sub_resource type="Animation" id="Animation_ynf5e"]
-resource_name = "LetterboxOff"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Letterbox:material:shader_parameter/squishedness")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.15, 0.0]
-}
-
-[sub_resource type="Animation" id="Animation_6bp64"]
-resource_name = "LetterboxOn"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Letterbox:material:shader_parameter/squishedness")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 0.15]
-}
-
-[sub_resource type="Animation" id="Animation_344ge"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Letterbox:material:shader_parameter/squishedness")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_344ge"]
-_data = {
-&"LetterboxOff": SubResource("Animation_ynf5e"),
-&"LetterboxOn": SubResource("Animation_6bp64"),
-&"RESET": SubResource("Animation_344ge")
-}
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xarxi"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -101,29 +44,17 @@ size = Vector3(32, 1, 18)
 
 [node name="Main" type="Node3D" unique_id=1645849445]
 
-[node name="Level Manager" type="Node" parent="." unique_id=552724275 node_paths=PackedStringArray("_shotPositions", "_hoop", "_dataLogger", "_letterboxAnim", "_fadeRect")]
+[node name="Level Manager" type="Node" parent="." unique_id=552724275 node_paths=PackedStringArray("_shotPositions", "_hoop", "_dataLogger", "_fadeRect", "_waitIcon")]
 script = ExtResource("1_21xkr")
 _shotPositions = [NodePath("../SpawnPositions/Pos 1"), NodePath("../SpawnPositions/Pos 2"), NodePath("../SpawnPositions/Pos 3"), NodePath("../SpawnPositions/Pos 4")]
 _hoop = NodePath("../SpawnPositions/Hoop Position")
 _dataLogger = NodePath("../Data Logger")
-_letterboxAnim = NodePath("CanvasLayer/AnimationPlayer")
 _fadeRect = NodePath("CanvasLayer/FadeToBlack")
+_waitIcon = NodePath("CanvasLayer/WaitIcon")
 _controllerPlayer = ExtResource("5_kry3j")
 _vrPlayer = ExtResource("3_ynf5e")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Level Manager" unique_id=930411717]
-
-[node name="Letterbox" type="ColorRect" parent="Level Manager/CanvasLayer" unique_id=2102481842]
-material = SubResource("ShaderMaterial_344ge")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Level Manager/CanvasLayer" unique_id=2031828869]
-libraries/ = SubResource("AnimationLibrary_344ge")
 
 [node name="FadeToBlack" type="ColorRect" parent="Level Manager/CanvasLayer" unique_id=545701652]
 modulate = Color(1, 1, 1, 0)
@@ -133,6 +64,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="WaitIcon" type="TextureRect" parent="Level Manager/CanvasLayer" unique_id=1549935765]
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 228.0
+offset_bottom = 228.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_hptm8")
 
 [node name="StartXR" parent="Level Manager" unique_id=1039137172 instance=ExtResource("4_344ge")]
 
