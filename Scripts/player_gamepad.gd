@@ -2,18 +2,18 @@ extends Player
 
 @export_group("Movement")
 @export var SPEED = 5.0
-@export var ACCELERATION = 2.0
-@export var LOOK_SPEED = 0.03
+@export var ACCELERATION = 0.1
+@export var LOOK_SPEED = 0.75
 
 @export_group("Shot Settings")
 @export var _defaultShotAngle := 45.0
 @export var _shotAngleMin := -45.0
 @export var _shotAngleMax := 90
-@export var _shotAngleAccel := 0.75
+@export var _shotAngleAccel := 20.0
 @export var _defaultShotForce := 10.0
 @export var _shotForceMin := 8.0
 @export var _shotForceMax := 12.0
-@export var _shotForceAccel := 0.1
+@export var _shotForceAccel := 2.0
 
 @export_group("References")
 @export var _ballScene: PackedScene
@@ -35,7 +35,7 @@ func _process(_delta: float) -> void:
 			_line3D.visible = true
 			_throwPressedTimestamp = Time.get_unix_time_from_system()
 		if Input.is_action_pressed("Shoot") and _isShooting:
-			ProcessShot()
+			ProcessShot(_delta)
 		if Input.is_action_just_released("Shoot") and _isShooting:
 			_isShooting = false
 			_throwReleasedTimestamp = Time.get_unix_time_from_system()
@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 	
 	if _controlEnabled:
 		var look_inp := Input.get_axis("LookRight", "LookLeft")
-		rotate_y(look_inp * LOOK_SPEED)
+		rotate_y(look_inp * LOOK_SPEED * delta)
 
 	move_and_slide()
 
@@ -69,16 +69,16 @@ func SpawnBall() -> void:
 	ball.position = _ballVisual.global_position
 	_currentBall = ball
 
-func ProcessShot() -> void:
+func ProcessShot(delta) -> void:
 	# Adjust angle and power based on input
 	if Input.is_action_pressed("LookDown"):
-		_throwAngle = move_toward(_throwAngle, _shotAngleMin, _shotAngleAccel)
+		_throwAngle = move_toward(_throwAngle, _shotAngleMin, _shotAngleAccel*delta)
 	if Input.is_action_pressed("LookUp"):
-		_throwAngle = move_toward(_throwAngle, _shotAngleMax, _shotAngleAccel)
+		_throwAngle = move_toward(_throwAngle, _shotAngleMax, _shotAngleAccel*delta)
 	if Input.is_action_pressed("ShotPowerDown"):
-		_throwForce = move_toward(_throwForce, _shotForceMin, _shotForceAccel)
+		_throwForce = move_toward(_throwForce, _shotForceMin, _shotForceAccel*delta)
 	if Input.is_action_pressed("ShotPowerUp"):
-		_throwForce = move_toward(_throwForce, _shotForceMax, _shotForceAccel)
+		_throwForce = move_toward(_throwForce, _shotForceMax, _shotForceAccel*delta)
 
 	# Calculate throw direction
 	# Character forward (basis -z) rotated up or down (basis x)
