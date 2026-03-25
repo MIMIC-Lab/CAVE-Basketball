@@ -1,5 +1,6 @@
+@tool
 class_name Ball
-extends RigidBody3D
+extends XRToolsPickable
 
 signal HitFloor()
 signal BallDestroyed()
