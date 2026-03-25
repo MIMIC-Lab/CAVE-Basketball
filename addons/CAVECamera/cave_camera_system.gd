@@ -6,6 +6,7 @@ extends Node3D
 @export var screen_width: float = 4.064
 @export var screen_height: float = 2.286
 @export var view_depth: float = 3.658
+@export var view_height: float = 1.65
 @export var far_plane = 50
 
 var left_window : Window
@@ -24,7 +25,7 @@ func _ready() -> void:
 	leftCam = %LeftCam
 	rightCam = %RightCam
 	viewport_size = get_viewport().size
-	eye_position = Vector3(screen_width/2, screen_height/2, view_depth)
+	eye_position = Vector3(screen_width/2, view_height, view_depth)
 	
 	_init_windows()
 	_update_cameras()
@@ -65,7 +66,7 @@ func _configure_camera(cam: Camera3D, pa: Vector3, pb: Vector3, pc: Vector3, pe:
 	var vc := pc - pe
 	
 	var d := -vn.dot(va)
-	var n := d/2 # distance to near clipping plane, default to screen distance
+	var n := d/4 # distance to near clipping plane, default to screen distance
 	
 	var l := vr.dot(va) * n / d
 	var r := vr.dot(vb) * n / d

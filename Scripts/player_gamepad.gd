@@ -2,7 +2,7 @@ extends Player
 
 @export_group("Movement")
 @export var SPEED = 5.0
-@export var ACCELERATION = 0.1
+@export var ACCELERATION = 1.0
 @export var LOOK_SPEED = 0.75
 
 @export_group("Shot Settings")
