@@ -24,6 +24,8 @@ XRToolsRumbleManager="*uid://by853dk86g1qw"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=3
+window/subwindows/embed_subwindows=false
 window/vsync/vsync_mode=0
 
 [dotnet]
@@ -32,7 +34,7 @@ project/assembly_name="CAVE Basketball"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot-polyliner/plugin.cfg", "res://addons/godot-xr-tools/plugin.cfg")
+enabled=PackedStringArray("res://addons/CAVECamera/plugin.cfg", "res://addons/godot-polyliner/plugin.cfg", "res://addons/godot-xr-tools/plugin.cfg")
 
 [input]
 

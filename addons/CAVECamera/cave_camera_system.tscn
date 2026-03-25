@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://dkm70hk6vdf5t"]
+
+[ext_resource type="Script" uid="uid://de7py4ciswka1" path="res://addons/CAVECamera/cave_camera_system.gd" id="1_vamsn"]
+
+[node name="CaveCameraSystem" type="Node3D" unique_id=1798725572]
+script = ExtResource("1_vamsn")
+metadata/_custom_type_script = "uid://de7py4ciswka1"
+
+[node name="FrontCam" type="Camera3D" parent="." unique_id=1371461957]
+unique_name_in_owner = true
+projection = 2
+size = 1.143
+near = 1.829
+far = 50.0
+
+[node name="LeftWindow" type="Window" parent="." unique_id=1773910826]
+unique_name_in_owner = true
+oversampling_override = 1.0
+mode = 4
+initial_position = 3
+size = Vector2i(1920, 1080)
+current_screen = 1
+
+[node name="LeftCamParent" type="Node3D" parent="LeftWindow" unique_id=876020486]
+
+[node name="LeftCam" type="Camera3D" parent="LeftWindow/LeftCamParent" unique_id=864129098]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+projection = 2
+size = 1.143
+frustum_offset = Vector2(0.81299996, 0)
+near = 1.016
+far = 50.0
+
+[node name="RightWindow" type="Window" parent="." unique_id=70307458]
+unique_name_in_owner = true
+auto_translate_mode = 1
+oversampling_override = 1.0
+mode = 4
+initial_position = 3
+size = Vector2i(1920, 1080)
+current_screen = 2
+
+[node name="RightCamParent" type="Node3D" parent="RightWindow" unique_id=1032482467]
+
+[node name="RightCam" type="Camera3D" parent="RightWindow/RightCamParent" unique_id=1161971418]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+projection = 2
+size = 1.143
+frustum_offset = Vector2(-0.81299996, 0)
+near = 1.016
+far = 50.0
+
+[node name="LeftRemote" type="RemoteTransform3D" parent="." unique_id=1024211426]
+remote_path = NodePath("../LeftWindow/LeftCamParent")
+
+[node name="RightRemote" type="RemoteTransform3D" parent="." unique_id=1904245196]
+remote_path = NodePath("../RightWindow/RightCamParent")
