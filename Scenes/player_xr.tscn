@@ -19,7 +19,7 @@ current = true
 [node name="Right Hand" type="XRController3D" parent="XROrigin3D" unique_id=375321684]
 tracker = &"right_hand"
 script = ExtResource("2_v2ih2")
-impulse_factor = 3.0
+impulse_factor = 5.0
 _ballScene = ExtResource("3_tal3k")
 
 [node name="RightHand" parent="XROrigin3D/Right Hand" unique_id=1155425392 instance=ExtResource("2_qlxyt")]
@@ -27,3 +27,5 @@ _ballScene = ExtResource("3_tal3k")
 [node name="CaveCameraSystem" parent="." unique_id=1798725572 instance=ExtResource("6_mxnm8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 view_height = 1.65
+far_plane = 50
+near_plane_divisor = 4.0
